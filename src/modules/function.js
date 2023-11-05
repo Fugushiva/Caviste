@@ -28,6 +28,7 @@ export function creerSlide(wineObject) {
             <li class="property" id="capacity">${wineObject.capacity}</li>
             <li class="property" id="color">${wineObject.color}</li>
             <li class="property" id="price">${wineObject.price}</li>
+            <li class="property invisible" id="identification">${wineObject.id}</id>
           </ul>
       </div>
     </div>
@@ -52,54 +53,6 @@ export function filterResults(tabWinesObjects, inputValue) {
   return tabWinesObjects.filter((wine) => {
     normalizedWineName = wine.name.replaceAll(/[â]/g, "a").toLowerCase();
     return normalizedWineName.includes(normalizedInput);
-  });
-}
-
-/**
- * Permet de créer un nouveau swiper
- *
- * @param {HTMLElement} wrapper Le HTML du swiper que l'on souhaite créer
- */
-export function newSwiper(wrapper) {
-  // Initialisation de Swiper
-  const swiper = new Swiper(wrapper, {
-    slidesPerView: "auto", //Nombre de slides en dynamique
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-  });
-  // On récupère la div qui contiendra la description
-  const divDescription = document.getElementById("productInfosContent");
-  // On crée un paragraphe qui contiendra la description
-  const pDescription = document.createElement("p");
-  // On ajoute le paragraphe du premier vin à la div
-  pDescription.innerHTML =
-    "With hints of ginger and spice, this wine makes an excellent complement to light appetizer and dessert fare for a holiday gathering.";
-  // On ajoute le paragraphe à la div
-  divDescription.appendChild(pDescription);
-
-  // On écoute l'événement slideChange
-  swiper.on("slideChange", () => {
-    // On récupère la slide active
-    const activeSlide = swiper.slides[swiper.activeIndex];
-    // On récupère l'élément qui contient la description
-    const descriptionElement = activeSlide.querySelector(".jetetiens");
-    // Si l'élément existe
-    if (descriptionElement) {
-      // On vide la div
-      divDescription.innerHTML = "";
-      // On récupère le texte de la description
-      const description = descriptionElement.textContent;
-      // On ajoute la description à notre paragraphe
-      pDescription.innerHTML = description;
-      // On ajoute le paragraphe à la div
-      divDescription.appendChild(pDescription);
-    }
   });
 }
 

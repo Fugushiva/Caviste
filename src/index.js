@@ -3,7 +3,6 @@ import FetchApi from "./modules/fetchApi.js";
 //Importe les fonctions
 import {
   creerSlide,
-  newSwiper,
   getData,
   createMultiElements,
   dataFilter,
@@ -11,6 +10,8 @@ import {
   textFilter,
 } from "./modules/function.js";
 import noUiSlider from "../../node_modules/nouislider/dist/nouislider.min.mjs";
+import { swiper, swiperContainer } from "./modules/const.js";
+
 
 // Initialisation de l'API
 const api = new FetchApi(
@@ -19,17 +20,13 @@ const api = new FetchApi(
 const response = await api.get();
 const data = await response;
 console.log(data); //Tableau des vins
-let swiperContainer = document.querySelector(".swiper"); //L'ensemble du swiper
 const inputName = document.getElementById("inputName"); //élément input pour le nom du vin
-
 // crée une slide pour chaque vin
 data.forEach((wineObject) => {
   const slide = creerSlide(wineObject); //crée une slide avec les données du vin
   //ajoute la slide à la div swiper-wrapper
   swiperContainer.querySelector(".swiper-wrapper").appendChild(slide);
 });
-
-newSwiper(swiperContainer); //Initialisation du swiper
 
 /****************************************************************** */
 /*     EVENT : CHERCHER PAR NOM                                     */
@@ -122,4 +119,37 @@ slide.noUiSlider.on("slide", (e) => {
   priceMin.innerHTML = slide.noUiSlider.get()[0] + "€";
   priceMax.innerHTML = slide.noUiSlider.get()[1] + "€";
   console.log(slide.noUiSlider.get());
+});
+
+/******************************************************************************************
+ * AVOIR LES COMMENTAIRES
+ *******************************************************************************************/
+
+// On récupère la div qui contiendra la description
+const divDescription = document.getElementById("productInfosContent");
+// On crée un paragraphe qui contiendra la description
+const pDescription = document.createElement("p");
+// On ajoute le paragraphe du premier vin à la div
+pDescription.innerHTML =
+  "With hints of ginger and spice, this wine makes an excellent complement to light appetizer and dessert fare for a holiday gathering.";
+// On ajoute le paragraphe à la div
+divDescription.appendChild(pDescription);
+
+// On écoute l'événement slideChange
+swiper.on("slideChange", () => {
+  // On récupère la slide active
+  const activeSlide = swiper.slides[swiper.activeIndex];
+  // On récupère l'élément qui contient la description
+  const descriptionElement = activeSlide.querySelector(".jetetiens");
+  // Si l'élément existe
+  if (descriptionElement) {
+    // On vide la div
+    divDescription.innerHTML = "";
+    // On récupère le texte de la description
+    const description = descriptionElement.textContent;
+    // On ajoute la description à notre paragraphe
+    pDescription.innerHTML = description;
+    // On ajoute le paragraphe à la div
+    divDescription.appendChild(pDescription);
+  }
 });

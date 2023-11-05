@@ -23,7 +23,7 @@ export default class FetchApi {
 
   /**
    * Exécute une requête POST.
-   * 
+   *
    * @param user l'utilisateur pour la méthode post
    * @param data Les données de la requête.
    * @return La réponse de la requête.
@@ -42,17 +42,19 @@ export default class FetchApi {
   /**
    * Exécute une requête PUT.
    *
-   * @param id L'identifiant de la ressource.
-   * @param data Les données de la requête.
+   * @param {string} user le login de l'utilisateur
+   * @param {string} fetchUrl le chemin de la donnée à mettre à jour
+   * @param {json} jsonData Les données de la requête.
    * @return La réponse de la requête.
    */
-  put(id, data) {
-    return this.fetch(this.url + "/" + id, {
+  put(user, fetchUrl, jsonData) {
+    return this.fetch(this.url + "/" + fetchUrl, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Basic " + btoa(user + ":123"),
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(jsonData),
     });
   }
 

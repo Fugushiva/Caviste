@@ -70,27 +70,39 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   );
   const response = await api.get(); //response
   const data = await response; //console.log(data)
-  const dynamicForm = getData(data, "login"); //console.log(tabLogin)
+  const tabLogins = getData(data, "login"); //console.log(tabLogin)
+  console.log(data);
 
   const password = btoa(passwordInput.value);
-  dynamicForm.shift(); // retirer le premier élément du tableau (tabLogin[0] = 'login')
+  tabLogins.shift(); // retirer le premier élément du tableau (tabLogin[0] = 'login')
 
-  let connect = false;
+  let tabData = [];
+  data.forEach((element) => {
+    tabData.push(`${element.login} => ${element.id}`);
+  });
+  console.log(tabData);
 
   btSend.addEventListener("click", (e) => {
     e.preventDefault();
     let password = btoa(passwordInput.value);
     //console.log(password);
-    const username = usernameInput.value; // le nom de l'username afin de controler
+    const loginUser = usernameInput.value; // le nom de l'username afin de controler
+    let userId = 0; // stocke l'id de l'user
+    data.forEach((user) => {
+      userId = user.id;
+      if (user.login == loginUser) {
+        //défini un cookie avec l'id de l'user
+        Cookies.set("id", userId);
+      }
+    });
     //hashage du mdp
-
     console.log(password);
     //si username est dans le tableau
-    if (dynamicForm.includes(username)) {
+    if (tabLogins.includes(loginUser)) {
       //si mdp == déhashage du mdp
       if (password === btoa(123)) {
         //crée un cookie "login" afin de l'utiliser pour la connexion
-        Cookies.set("login", username);
+        Cookies.set("login", loginUser);
         location.reload();
       } else {
         console.log("mauvais MDP");
@@ -112,6 +124,5 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       Cookies.remove("login"); //retirer le cookie "login"
       location.reload(); //refresh la page
     });
-   
   }
 });
