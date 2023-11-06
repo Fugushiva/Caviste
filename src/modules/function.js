@@ -42,7 +42,7 @@ export function creerSlide(wineObject) {
  *
  * @param {Array} tabWinesObjects Un tableau d'objets de vins
  * @param {string} inputValue La valeur du champs de recherche
- * @returns {Array<Objects>} Un tableau d'objets de vins filtrés
+ * @returns {Array<Object>} Un tableau d'objets de vins filtrés
  */
 // fonction de filtrage
 export function filterResults(tabWinesObjects, inputValue) {
@@ -65,7 +65,7 @@ export function filterResults(tabWinesObjects, inputValue) {
  */
 
 export default function setAttributes(element, attributes) {
-  for (var key in attributes) {
+  for (let key in attributes) {
     element.setAttribute(key, attributes[key]);
   }
 }
@@ -102,7 +102,7 @@ export function getData(tabData, key) {
  *
  * @param {array} tabData  le tableau des valeurs
  * @param {string} htmlElement  l'élement HTML qu'on souhaite créer
- * @param {string} parentHtmlElement l'élément parent
+ * @param {htmlElement} parentHtmlElement l'élément parent
  */
 export function createMultiElements(tabData, htmlElement, parentHtmlElement) {
   tabData.forEach((data) => {
@@ -120,7 +120,7 @@ export function createMultiElements(tabData, htmlElement, parentHtmlElement) {
  *
  * @param {array} tabKeys le tableau des clés, tabKey[0] == selectorName
  * @param {string} wanted ce que l'on recherche
- * @param {Array<Objects>} jsonDataObject le json entier
+ * @param {Array<Object>} jsonDataObject le json entier
  */
 
 export function dataFilter(tabKeys, wanted, jsonDataObject) {
@@ -155,8 +155,8 @@ export function dataFilter(tabKeys, wanted, jsonDataObject) {
 /****************************************************************************************/
 /** récupère la valeur la plus forte et la plus faible d'un tableau passé en paramètre *
  *                                                                                      *
- * @param {array[nb]} tabNb un tableau de nombres                                       *
- * @return {array[nb]} les deux valeurs                                                 *
+ * @param {array[number]} tabNb un tableau de nombres                                       *
+ * @return {array[number]} les deux valeurs                                                 *
  ****************************************************************************************/
 export function getMinMax(tabNb) {
   //Définition des valeurs minimale et maximale
@@ -168,9 +168,11 @@ export function getMinMax(tabNb) {
 }
 
 /*********************************************************/
-/**                                                     *
+/**
+ * Filtre par texte
+ *
  * @param {HTMLElement} input ce que l'on cherche        *
- * @param {Array<Objects>} dataObject Un tableau d'objet *
+ * @param {Array<Object>} dataObject Un tableau d'objet *
  *                                                       *
  *********************************************************/
 export function textFilter(input, dataObject) {

@@ -19,7 +19,7 @@ const api = new FetchApi(
 );
 const response = await api.get();
 const data = await response;
-console.log(data); //Tableau des vins
+//console.log(data); //Tableau des vins
 const inputName = document.getElementById("inputName"); //élément input pour le nom du vin
 // crée une slide pour chaque vin
 data.forEach((wineObject) => {
@@ -31,7 +31,7 @@ data.forEach((wineObject) => {
 /****************************************************************** */
 /*     EVENT : CHERCHER PAR NOM                                     */
 /******************************************************************* */
-inputName.addEventListener("input", (e) => {
+inputName.addEventListener("input", () => {
   textFilter(inputName, data);
 });
 
@@ -43,7 +43,7 @@ const colorSelector = document.getElementById("colorSelector");
 const tabColors = getData(data, "color"); // tableau des couleurs
 createMultiElements(tabColors, "option", colorSelector);
 
-colorSelector.addEventListener("change", (e) => {
+colorSelector.addEventListener("change", () => {
   let colorWanted = colorSelector.value; //la couleur qu'on souhaite
   dataFilter(tabColors, colorWanted, data);
 });
@@ -68,7 +68,7 @@ createMultiElements(tabCountries, "option", countrySelector);
  * gestion d'évènement                                   *
  *********************************************************/
 let countryWanted = ""; // variable qui contiendra la string du pays selectionné
-countrySelector.addEventListener("change", (e) => {
+countrySelector.addEventListener("change", () => {
   //on récupère la valeur du pays selectionné
   countryWanted = countrySelector.value;
   dataFilter(tabCountries, countryWanted, data);
@@ -103,7 +103,7 @@ noUiSlider.create(slide, {
 });
 
 //ajout d'evenement au moment où on slide
-slide.noUiSlider.on("slide", (e) => {
+slide.noUiSlider.on("slide", () => {
   swiperContainer.querySelector(".swiper-wrapper").innerHTML = ""; // Vider le slider
   //boucle d'affichage des vins
   for (let wineObject of data) {

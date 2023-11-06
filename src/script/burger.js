@@ -3,6 +3,7 @@ import setAttributes from "../modules/function.js";
 import { getData } from "../modules/function.js";
 import Cookies from "../../node_modules/js-cookie/dist/js.cookie.mjs";
 
+
 //fonction asynchrone afin de récupérer API fetch
 document.addEventListener("DOMContentLoaded", async (e) => {
   //Déclaration des variables
@@ -71,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   const response = await api.get(); //response
   const data = await response; //console.log(data)
   const tabLogins = getData(data, "login"); //console.log(tabLogin)
-  console.log(data);
+  //console.log(data);
 
   const password = btoa(passwordInput.value);
   tabLogins.shift(); // retirer le premier élément du tableau (tabLogin[0] = 'login')
@@ -80,11 +81,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   data.forEach((element) => {
     tabData.push(`${element.login} => ${element.id}`);
   });
-  console.log(tabData);
+  //console.log(tabData);
 
-  btSend.addEventListener("click", (e) => {
+  btSend.addEventListener("click", async (e) => {
     e.preventDefault();
     let password = btoa(passwordInput.value);
+    let likesUrl = "";
     //console.log(password);
     const loginUser = usernameInput.value; // le nom de l'username afin de controler
     let userId = 0; // stocke l'id de l'user
@@ -93,16 +95,25 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       if (user.login == loginUser) {
         //défini un cookie avec l'id de l'user
         Cookies.set("id", userId);
+        likesUrl = `/${userId}/likes/wines`;
       }
     });
     //hashage du mdp
-    console.log(password);
     //si username est dans le tableau
     if (tabLogins.includes(loginUser)) {
       //si mdp == déhashage du mdp
       if (password === btoa(123)) {
         //crée un cookie "login" afin de l'utiliser pour la connexion
         Cookies.set("login", loginUser);
+        //Récupère ses vins likés afin de les stocker dans un cookie
+        const getLikeApi = new FetchApi(api.url + likesUrl);
+        const likeResponse = await getLikeApi.get();
+        const userLikes = await likeResponse;
+        
+        Cookies.set('likes', JSON.stringify(userLikes));
+     
+
+
         location.reload();
       } else {
         console.log("mauvais MDP");
@@ -126,3 +137,5 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     });
   }
 });
+
+

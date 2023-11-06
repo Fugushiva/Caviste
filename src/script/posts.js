@@ -5,6 +5,7 @@ import { swiper, swiperContainer } from "../modules/const.js";
 
 document.addEventListener("DOMContentLoaded", async (e) => {
   const userName = Cookies.get("login");
+  const userId = Cookies.get("id");
   const btLike = document.getElementById("like");
   const apiUrl = "http://cruth.phpnet.org/epfc/caviste/public/index.php/api";
   // Initialisation de l'API
@@ -21,18 +22,33 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     //on récupère le nouvel id de la slide
     activeSlide = swiper.slides[swiper.activeIndex];
     wineId = activeSlide.querySelector("#identification").innerHTML;
+    wineId = wineId.trim(); // ne pas avoir de problème d'espace dans le lien
+    fetchUrl = `${wineId}/like`; // URL vers lequel on fait la modif
   });
   //si un utilisateur est connecté
   /**
    * TODO ajouter une manière d'intégrer le dislike si le vin est déjà liké
    */
   if (userName) {
+    //récupère les vins likés de l'user
+    const favoriteWines = JSON.parse(Cookies.get("likes"));
+    //par défaut on like le vin
+    let putContent = { like: true };
+
     btLike.addEventListener("click", (e) => {
       wineId = activeSlide.querySelector("#identification").innerHTML;
-
-      const putContent = { like: true }; // liker le vin
+      //si le vin est liké
+      favoriteWines.forEach((wineObject) => {
+        if (wineObject.id.trim() == wineId.trim()) {
+          //on dislike le vin
+          putContent = { like: false };
+        }
+      });
+      // liker le vin
       const updateWine = api.put(userName, fetchUrl, putContent);
       console.log(updateWine);
+      console.log(userName);
+      console.log(userId);
     });
   } else {
     console.log("aucun utilisateur");
