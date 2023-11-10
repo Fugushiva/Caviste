@@ -25,7 +25,7 @@
   margin: 2px;
   background-color: #dcbf89;
 }
-.inputFormConnect::selection{
+.inputFormConnect::selection {
   border: 2px solid #ae1829;
 }
 
@@ -68,4 +68,32 @@
 }
 #btSend:active {
   top: 2px;
+}
+
+#addPictureWindow {
+  background-color: #dcbf89e5;
+  width: 300px;
+  height: 250px;
+  position: absolute;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+#btClose{
+  margin-top: 5%;
+}
+
+#crossLine1,
+#crossLine2 {
+  width: 2px;
+  height: 15px;
+  background-color: #ae1829;
+  position: absolute;
+  left: 92%;
+}
+#crossLine1{
+  rotate: 45deg;
+}
+#crossLine2{
+  rotate: -45deg;
 }

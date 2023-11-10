@@ -3,7 +3,6 @@ import setAttributes from "../modules/function.js";
 import { getData } from "../modules/function.js";
 import Cookies from "../../node_modules/js-cookie/dist/js.cookie.mjs";
 
-
 //fonction asynchrone afin de récupérer API fetch
 document.addEventListener("DOMContentLoaded", async (e) => {
   //Déclaration des variables
@@ -89,12 +88,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     let likesUrl = "";
     //console.log(password);
     const loginUser = usernameInput.value; // le nom de l'username afin de controler
-    let userId = 0; // stocke l'id de l'user
+    let userId = ""; // stocke l'id de l'user
     data.forEach((user) => {
-      userId = user.id;
       if (user.login == loginUser) {
         //défini un cookie avec l'id de l'user
         Cookies.set("id", userId);
+        userId = user.id;
         likesUrl = `/${userId}/likes/wines`;
       }
     });
@@ -109,10 +108,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         const getLikeApi = new FetchApi(api.url + likesUrl);
         const likeResponse = await getLikeApi.get();
         const userLikes = await likeResponse;
-        
-        Cookies.set('likes', JSON.stringify(userLikes));
-     
 
+        Cookies.set("likes", JSON.stringify(userLikes));
 
         location.reload();
       } else {
@@ -137,5 +134,3 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     });
   }
 });
-
-
